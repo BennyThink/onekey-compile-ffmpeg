@@ -24,7 +24,7 @@ and....go get some coffee.<br>
 ##Binaries##
 The binaries will be saved on `~/bin`.`~/bin` is included in the standard Ubuntu `$PATH` by default.<br>
 I'm just too lazy to customized `configure`.
-By the way, you could even copy these binaries from `~/bin` to `/bin` and remove `~/ffmpeg_sources`, `~/bin`, `~/ffmpeg_build` afterwards.
+By the way, you could even copy these binaries from `~/bin` to `/bin`.
 
 ##Be aware##
 Hey dude! I'm *NOT* specialized at writting SHELL scripts, so you know...<br>
