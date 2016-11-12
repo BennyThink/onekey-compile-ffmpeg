@@ -104,8 +104,6 @@ source ~/.profile
 
 echo -e 'Congratulations! Compilation has been finished!\n'
 echo -e 'You may have to reopen a terminal to use ffmpeg.\n'
-echo -e 'Besides, you could copy binaries from ~/bin to /bin,\n'
-echo -e 'remove ~/bin, ~/ffmpeg_source and ~/ffmpeg_build\n'
 echo -e 'Thanks for choosing this script, written by Benny\n'
 echo -e 'Bug report to benny.think(at)gmail.com'
 
