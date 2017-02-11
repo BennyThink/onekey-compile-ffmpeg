@@ -1,6 +1,10 @@
 # onekey-compile-ffmpeg
 Onekey shell script to compile ffmpeg non-free on Debian/Ubuntu/Mint/CentOS/RHEL/Fedora.
 
+##Pre-build release##
+If you are too lazy to build ffmpeg non-free  and have trust in me, you could just simply download my binaries by cliking [here.](http://bennydownload.file.alimmdn.com/ffmpeg-N-83470-gba632ef.tar.bz2?t=1486805078669)
+ffmpeg version is ffmpeg-N-83470-gba632ef
+
 ##Description##
 As you may see from the title, this is a onekey onekey shell script to compile `ffmpeg non-free` on Debian/Ubuntu/Mint/CentOS/RHEL/Fedora.
 
