@@ -2,7 +2,22 @@
 
 Get_Dist_Name()
 {
-    if grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
+    if grep -Eqi "CentOS" /etc/issue || grep -Eq "CentOS" /etc/*-release; then
+        DISTRO='CentOS'
+        PM='yum'
+    elif grep -Eqi "Red Hat Enterprise Linux Server" /etc/issue || grep -Eq "Red Hat Enterprise Linux Server" /etc/*-release; then
+        DISTRO='RHEL'
+        PM='yum'
+    elif grep -Eqi "Aliyun" /etc/issue || grep -Eq "Aliyun" /etc/*-release; then
+        DISTRO='Aliyun'
+        PM='yum'
+    elif grep -Eqi "Fedora" /etc/issue || grep -Eq "Fedora" /etc/*-release; then
+        DISTRO='Fedora'
+        PM='yum'
+    elif grep -Eqi "Amazon Linux AMI" /etc/issue || grep -Eq "Amazon Linux AMI" /etc/*-release; then
+        DISTRO='Amazon'
+        PM='yum'
+    elif grep -Eqi "Debian" /etc/issue || grep -Eq "Debian" /etc/*-release; then
         DISTRO='Debian'
         PM='apt'
     elif grep -Eqi "Ubuntu" /etc/issue || grep -Eq "Ubuntu" /etc/*-release; then
@@ -14,13 +29,116 @@ Get_Dist_Name()
     elif grep -Eqi "Deepin" /etc/issue || grep -Eq "Deepin" /etc/*-release; then
         DISTRO='Deepin'
         PM='apt'
-    elif grep -Eqi "Mint" /etc/issue || grep -Eq "Deepin" /etc/*-release; then
-        DISTRO='Mint'
-        PM='apt'
     else
         DISTRO='unknow'
     fi
-    
+   
+}
+
+
+Compile_on_CentOS(){
+
+#yasm
+cd ~/ffmpeg_sources
+git clone --depth 1 git://github.com/yasm/yasm.git
+cd yasm
+autoreconf -fiv
+./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin"
+make
+make install
+echo 'Finished compiling yasm'
+
+#libx264
+cd ~/ffmpeg_sources
+git clone --depth 1 git://git.videolan.org/x264
+cd x264
+PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --enable-static
+make
+make install
+echo 'Finished compiling libx264'
+
+#libx265
+cd ~/ffmpeg_sources
+hg clone https://bitbucket.org/multicoreware/x265
+cd ~/ffmpeg_sources/x265/build/linux
+cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$HOME/ffmpeg_build" -DENABLE_SHARED:bool=off ../../source
+make
+make install
+echo 'Finished compiling libx264'
+
+#libfdk aac
+cd ~/ffmpeg_sources
+git clone --depth 1 git://git.code.sf.net/p/opencore-amr/fdk-aac
+cd fdk-aac
+autoreconf -fiv
+./configure --prefix="$HOME/ffmpeg_build" --disable-shared
+make
+make install
+echo 'Finished compiling libfdkaac'
+
+#libmp3lame
+cd ~/ffmpeg_sources
+curl -L -O http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz
+tar xzvf lame-3.99.5.tar.gz
+cd lame-3.99.5
+./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin" --disable-shared --enable-nasm
+make
+make install
+echo 'Finished compiling libmp3lame'
+
+#libopus
+cd ~/ffmpeg_sources
+git clone http://git.opus-codec.org/opus.git
+cd opus
+autoreconf -fiv
+PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure --prefix="$HOME/ffmpeg_build" --disable-shared
+make
+make install
+echo 'Finished compiling libopus'
+
+#libogg
+cd ~/ffmpeg_sources
+curl -O http://downloads.xiph.org/releases/ogg/libogg-1.3.2.tar.gz
+tar xzvf libogg-1.3.2.tar.gz
+cd libogg-1.3.2
+./configure --prefix="$HOME/ffmpeg_build" --disable-shared
+make
+make install
+echo 'Finished compiling libogg'
+
+#libvobis
+cd ~/ffmpeg_sources
+curl -O http://downloads.xiph.org/releases/vorbis/libvorbis-1.3.4.tar.gz
+tar xzvf libvorbis-1.3.4.tar.gz
+cd libvorbis-1.3.4
+./configure --prefix="$HOME/ffmpeg_build" --with-ogg="$HOME/ffmpeg_build" --disable-shared
+make
+make install
+echo 'Finished compiling libvobis'
+
+#libvpx
+cd ~/ffmpeg_sources
+git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git
+cd libvpx
+./configure --prefix="$HOME/ffmpeg_build" --disable-examples
+make
+make install
+echo 'Finished compiling libvpx'
+
+#ffmpeg
+cd ~/ffmpeg_sources
+git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git
+cd libvpx
+./configure --prefix="$HOME/ffmpeg_build" --disable-examples
+make
+make install
+echo 'Finished compiling ffmpeg'
+
+echo -e 'Congratulations! Compilation succeed!\n'
+echo -e 'You may have to reopen a terminal to use ffmpeg.\n'
+echo -e 'Thanks for choosing this script, written by Benny\n'
+echo -e 'Bug report to benny.think(at)gmail.com'
+
 }
 
 Compile_yasm()
@@ -49,9 +167,6 @@ PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME
 PATH="$HOME/bin:$PATH" make
 make install
 make distclean
-
-
-
 
 }
 
@@ -152,6 +267,29 @@ make install
 make distclean
 hash -r
 
+}
 
+
+revert_changes(){
+
+if [ "$PM" = "yum" ]; then
+	#CentOS
+	rm -rf ~/ffmpeg_build ~/ffmpeg_sources ~/bin/{ffmpeg,ffprobe,ffserver,lame,vsyasm,x264,yasm,ytasm}
+	yum erase -y autoconf automake bzip2 cmake freetype-devel gcc gcc-c++ git libtool mercurial nasm pkgconfig zlib-devel
+	hash -r
+	echo -e "\033[47;30m revert completed\033[0m"
+elif [ "$PM" = "apt" ]; then
+	#Ubuntu
+	rm -rf ~/ffmpeg_build ~/ffmpeg_sources ~/bin/{ffmpeg,ffprobe,ffplay,ffserver,vsyasm,x264,x265,yasm,ytasm}
+	sudo apt-get autoremove autoconf automake build-essential cmake libass-dev libfreetype6-dev \
+	  libmp3lame-dev libopus-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev \
+	  libvorbis-dev libvpx-dev libx264-dev libxcb1-dev libxcb-shm0-dev ibxcb-xfixes0-dev mercurial texinfo zlib1g-dev
+	sed -i '/ffmpeg_build/c\' ~/.manpath
+	hash -r
+	echo -e "\033[47;30m revert completed\033[0m"
+else
+	echo "something's wrong..."
+	exit 1
+fi
 
 }

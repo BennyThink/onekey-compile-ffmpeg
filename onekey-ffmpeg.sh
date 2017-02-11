@@ -1,21 +1,13 @@
 #!/bin/bash
 . functions.sh
 
-echo -e '-----------------------------------------\n'
-echo -e 'One key script to compile ffmpeg(non-free)\n'
-echo -e '---------- written by Benny--------------\n'
-echo -e 'Bug report to benny.think(at)gmail.com\n'
-echo -e 'Press enter to compile...\n'
-read p
-
-
 Get_Dist_Name
 
+#check distribution
 if [ "${DISTRO}" = "unknow" ]; then
-    Echo_Red "Unable to get Linux distribution name, or do NOT support the current distribution."
+    Echo "Unable to get Linux distribution name, or do NOT support the current distribution."
     exit 1
 fi
-
 
 #check root 
 if [ $(id -u) != "0" ]; then
@@ -23,15 +15,47 @@ if [ $(id -u) != "0" ]; then
     exit 1
 fi
 
-#Dependencies
-sudo apt update
-sudo apt-get -y install autoconf automake build-essential libass-dev libfreetype6-dev \
-  libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
-  libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev
+echo -e "-----------------------------------------\n"
+echo -e "\033[47;30m One key script to build ffmpeg(non-free)\033[0m"
+echo -e "---------- written by Benny--------------\n"
+echo -e "--------Hello there, $DISTRO user--------"
+echo -e "Please enter your choice:"
+echo -e "1. Build ffmpeg(non-free)"
+echo -e "2. Revert all changes and uninstall."
+read p
 
+#1 - build; 2 - revert
+if [ $p -eq 1 ]; then
+	echo "Press any key to build ffmpeg..."
+	read
+elif [ $p -eq 2 ]; then
+	echo "Presss any key to revert changes..."	
+	read
+	revert_changes $PM	
+	exit 0
+else
+	echo "Wrong input, exit now..."
+	exit 0
+fi
+
+
+#create dir
 mkdir ~/ffmpeg_sources
 
-###########
+#Dependencies
+if [ "$PM" = "yum" ]; then
+	sudo $PM update
+	sudo $PM install -y autoconf automake bzip2 cmake freetype-devel gcc gcc-c++ git libtool make mercurial nasm pkgconfig zlib-devel
+	Compile_on_CentOS
+	exit 0
+elif [ "$PM" = "apt" ]; then
+	sudo $PM update
+	sudo $PM install -y autoconf automake build-essential libass-dev libfreetype6-dev \
+  		libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev \
+  		libxcb-xfixes0-dev pkg-config texinfo zlib1g-dev
+fi
+
+
 #test for yasm
 ver=`apt-cache show yasm|grep Version |sed "s/.* \([^ ]*\).*$/\1/"`
 if [ $ver \> 1.2.0 -o $ver = 1.2.0 ]
@@ -96,13 +120,12 @@ fi
 Compile_VP8
 
 #compile ffmpeg
-
 clear
 Compile_ffmpeg
 clear
 source ~/.profile
 
-echo -e 'Congratulations! Compilation has been finished!\n'
+echo -e 'Congratulations! Compilation succeed!\n'
 echo -e 'You may have to reopen a terminal to use ffmpeg.\n'
 echo -e 'Thanks for choosing this script, written by Benny\n'
 echo -e 'Bug report to benny.think(at)gmail.com'
