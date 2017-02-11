@@ -127,11 +127,13 @@ echo 'Finished compiling libvpx'
 
 #ffmpeg
 cd ~/ffmpeg_sources
-git clone --depth 1 https://chromium.googlesource.com/webm/libvpx.git
-cd libvpx
-./configure --prefix="$HOME/ffmpeg_build" --disable-examples
+curl -O http://ffmpeg.org/releases/ffmpeg-snapshot.tar.bz2
+tar xjvf ffmpeg-snapshot.tar.bz2
+cd ffmpeg
+PKG_CONFIG_PATH="$HOME/ffmpeg_build/lib/pkgconfig" ./configure --prefix="$HOME/ffmpeg_build" --extra-cflags="-I$HOME/ffmpeg_build/include" --extra-ldflags="-L$HOME/ffmpeg_build/lib -ldl" --bindir="$HOME/bin" --pkg-config-flags="--static" --enable-gpl --enable-nonfree --enable-libfdk_aac --enable-libfreetype --enable-libmp3lame --enable-libopus --enable-libvorbis --enable-libvpx --enable-libx264 --enable-libx265
 make
 make install
+hash -r
 echo 'Finished compiling ffmpeg'
 
 echo -e 'Congratulations! Compilation succeed!\n'
