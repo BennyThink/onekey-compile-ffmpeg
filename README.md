@@ -48,4 +48,4 @@ Open an issue or [email me](mailto:benny.think@gmail.com).
 Happy coding fellas!
 
 ##License##
-GPL v3.
+Use it whatever you want! Hooah!
