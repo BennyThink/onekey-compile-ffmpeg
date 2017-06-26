@@ -2,8 +2,8 @@
 Onekey shell script to compile ffmpeg non-free on Debian/Ubuntu/Mint/CentOS/RHEL/Fedora.
 
 ## Pre-build release ##
-If you are too lazy to build ffmpeg non-free  and have trust in me, you could just simply download my binaries by cliking [here.](http://bennydownload.file.alimmdn.com/ffmpeg-N-83470-gba632ef.tar.bz2?t=1486805078669)
-ffmpeg version is ffmpeg-N-83470-gba632ef
+If you are too lazy to build ffmpeg non-free  and have faith in me, you could just simply download my binaries by cliking [here.](http://bennydownload.file.alimmdn.com/ffmpeg-N-83470-gba632ef.tar.bz2?t=1486805078669)
+ffmpeg version is ffmpeg-N-83470-gba632ef, I'll continue building and sharing the binariein in recent days.
 
 ## Description ##
 As you may see from the title, this is a onekey onekey shell script to compile `ffmpeg non-free` on Debian/Ubuntu/Mint/CentOS/RHEL/Fedora.
@@ -12,7 +12,7 @@ With this you could compile `ffmpeg` along with `x264, x265, aac, lame, VP8/9, o
 
 ## Distribution ##
 Due to my limitations I've only tested it on Ubuntu 16.04 and CentOS 7.
-Plus, CentOS needs another confirm to install dependencies even though I've set `yum install -y`.
+Plus, CentOS probably needs another confirm to install dependencies even though I've set `yum install -y`.
 In theory it shall work on all Debian/RHEL based Distribution.
 
 ## Offical Compilation Guide ##
@@ -30,7 +30,7 @@ and....go get some coffee.
 ## Binaries ##
 The binaries will be saved on `~/bin`.`~/bin` is included in the standard Ubuntu `$PATH` by default.
 I'm just too lazy to customized `configure`.
-By the way, you could even copy these binaries from `~/bin` to `/bin`.
+By the way, you could even copy these binaries from `~/bin` to `/usr/bin`.
 
 ## Be aware ##
 Hey dude! I'm **NOT** specialized at writting SHELL scripts, so you know...
