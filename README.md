@@ -2,8 +2,8 @@
 Onekey shell script to compile ffmpeg non-free on Debian/Ubuntu/Mint/CentOS/RHEL/Fedora.
 
 ## Pre-build release ##
-If you are too lazy to build ffmpeg non-free  and have faith in me, you could just simply download my binaries by cliking [here.](http://bennydownload.file.alimmdn.com/ffmpeg-N-83470-gba632ef.tar.bz2?t=1486805078669)
-ffmpeg version is ffmpeg-N-83470-gba632ef, I'll continue building and sharing the binariein in recent days.
+If you are too lazy to build ffmpeg non-free  and have faith in me, you could just simply download my binaries by cliking [here](http://bennydownload.file.alimmdn.com/ffmpeg-N-83470-gba632ef.tar.bz2?t=1486805078669) or use official static builds: [Linux](https://www.johnvansickle.com/ffmpeg/), [Windows](https://ffmpeg.zeranoe.com/builds/), [MacOS](https://evermeet.cx/ffmpeg/).
+Ffmpeg version is ffmpeg-N-83470-gba632ef, outdated I guess.
 
 ## Description ##
 As you may see from the title, this is a onekey onekey shell script to compile `ffmpeg non-free` on Debian/Ubuntu/Mint/CentOS/RHEL/Fedora.
@@ -25,12 +25,12 @@ git clone https://github.com/BennyThink/onekey-compile-ffmpeg
 cd onekey-compile-ffmpeg
 sudo ./onekey-ffmpeg.sh
 ```
-and....go get some coffee.
+and....go get some coffee. It's gonna take some time depending on your machine.
 
 ## Binaries ##
 The binaries will be saved on `~/bin`.`~/bin` is included in the standard Ubuntu `$PATH` by default.
 I'm just too lazy to customized `configure`.
-By the way, you could even copy these binaries from `~/bin` to `/usr/bin`.
+By the way, you could even copy these binaries from `~/bin` to `/usr/bin`(or some other `$PATH`, not recommended though.
 
 ## Be aware ##
 Hey dude! I'm **NOT** specialized at writting SHELL scripts, so you know...
